@@ -3,4 +3,4 @@
 node_modules
 mongo_data
 .env
-wwebjs_auth_sessions
+#wwebjs_auth_sessions
