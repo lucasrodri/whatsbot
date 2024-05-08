@@ -33,6 +33,8 @@ client.on('qr', (qr) => {
 
 // Criando uma função para enviar mensagens
 async function sendMessage(from, message) {
+    // Descomentar esta linha para ver as mensagens enviadas no console
+    console.log("To: ", from, "Message: ", message);
     const chat = await client.getChatById(from);
     chat.sendStateTyping();
     let delay = Math.floor(Math.random() * (12000 - 4000 + 1)) + 4000;
@@ -66,7 +68,12 @@ client.on('message_create', async message => {
     // Obter o chat relacionado à mensagem
     const chat = await message.getChat();
     // Ignorar mensagens vindas de grupos
-    if (chat.isGroup) return;
+    if (chat.isGroup) {
+        // Descomentar linhas para ver as mensagens no console e descobrir o id do chat
+        const from = message.from;
+        console.log("From: ", from, "Message: ", message.body);
+        return;
+    }
 
     const db = await connectMongo();
     const sessionsCollection = db.collection('sessions'); 
@@ -74,7 +81,8 @@ client.on('message_create', async message => {
     const from = message.from;
     const session = await sessionsCollection.findOne({ from: from });
 
-    //console.log("From: ", from, "Message: ", message.body);
+    // Descomentar esta linha para ver as mensagens no console e descobrir o numero do usuário
+    console.log("From: ", from, "Message: ", message.body);
 
     if (!session) {
         // Se não existe sessão para esse usuário, criar uma e enviar mensagem de boas-vindas
