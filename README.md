@@ -6,11 +6,12 @@ Projeto de um BOT para WhatsApp usando a biblioteca `whatsapp-web.js`.
 
 ## Instalação
 
-Ajuste o arquivo `.env` com as informações do número de telefone que receberá as mensagens de chamado do BOT.
+Ajuste o arquivo `.env` com as informações do número de telefone que receberá as mensagens de chamado do BOT e o id do grupo.
 
 Execute o comando abaixo para subir os containers:
 
 ```bash
+chmod 777 -R wwebjs_auth_sessions/
 docker compose up -d
 ```
 
