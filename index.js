@@ -8,10 +8,15 @@ const InteropNumber = process.env.INTEROP_NUMBER + '@c.us';
 const InteropGroup = process.env.INTEROP_GROUP + '@g.us';
 
 const client = new Client({
+    webVersion: '2.2409.2',
+    webVersionCache: {
+      type: 'remote',
+      remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2409.2.html'
+    },
     authStrategy: new LocalAuth({
         dataPath: './wwebjs_auth_sessions'
     })
-});
+  });
 
 
 // When the client is ready, run this code (only once)

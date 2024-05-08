@@ -55,10 +55,17 @@ RUN apt-get update && apt-get install -y chromium \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
+# Copie o restante dos arquivos para o diretório de trabalho, garantindo a propriedade correta
+COPY --chown=pptruser:pptruser . .
+
 # Cria um usuário não-root e muda a propriedade do diretório de trabalho
 RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads /usr/src/app \
+    && mkdir -p /home/pptruser/Downloads /usr/src/app/wwebjs_auth_sessions/session \
     && chown -R pptruser:pptruser /home/pptruser /usr/src/app
+
+# Como root, cria o diretório de sessões com permissões adequadas
+RUN mkdir -p /usr/src/app/wwebjs_auth_sessions/session \
+    && chown -R pptruser:pptruser /usr/src/app/wwebjs_auth_sessions
 
 USER pptruser
 
@@ -67,9 +74,6 @@ COPY --chown=pptruser:pptruser package*.json ./
 
 # Instalar as dependências do projeto Node.js especificadas no 'package.json'
 RUN npm install
-
-# Copie o restante dos arquivos para o diretório de trabalho, garantindo a propriedade correta.
-COPY --chown=pptruser:pptruser . .
 
 # Comando para rodar o aplicativo usando npm start conforme especificado no seu package.json
 CMD [ "npm", "start" ]
